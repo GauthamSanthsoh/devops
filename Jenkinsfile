@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Clone Code') {
             steps {
                 git branch: 'main',
@@ -15,23 +16,27 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('welcome-react') {
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Build React App') {
             steps {
-                sh 'npm run build'
+                dir('welcome-react') {
+                    sh 'npm run build'
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'React build successful 🎉'
+            echo '✅ React build successful 🎉'
         }
         failure {
-            echo 'Build failed ❌'
+            echo '❌ Build failed'
         }
     }
 }
